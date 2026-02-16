@@ -4,5 +4,7 @@ openpyxl
 py7zr
 matplotlib
 numpy
+streamlit-aggrid
+
 
 
