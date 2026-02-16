@@ -4,9 +4,6 @@ import streamlit as st
 from rty_processor import process_rty_7z
 from st_aggrid import AgGrid
 
-AgGrid(df)
-
-
 @st.cache_data(show_spinner=False)
 def run_processing(uploaded_file):
     return process_rty_7z(uploaded_file)
@@ -36,10 +33,10 @@ if uploaded_file:
 
         with tab1:
             st.subheader("Quantity and Yield")
-            st.dataframe(df_qty)
+            AgGrid(df_qty)
 
             st.subheader("Top 5 Fail Mode")
-            st.dataframe(df_fail)
+            AgGrid(df_fail)
 
             st.download_button(
                 "Download Integrated File",
@@ -129,6 +126,7 @@ if uploaded_file:
 
 
         
+
 
 
 
