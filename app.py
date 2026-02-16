@@ -31,10 +31,10 @@ if uploaded_file:
         tab1, tab2 = st.tabs(["Data Overview", "Visualization"])
 
         with tab1:
-            st.subheader("Sheet 1 - QTY")
+            st.subheader("Quantity and Yield")
             st.dataframe(df_qty)
 
-            st.subheader("Sheet 2 - Top5FailMode")
+            st.subheader("Top 5 Fail Mode")
             st.dataframe(df_fail)
 
             st.download_button(
@@ -125,6 +125,7 @@ if uploaded_file:
 
 
         
+
 
 
 
