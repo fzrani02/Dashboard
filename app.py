@@ -2,6 +2,10 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import streamlit as st
 from rty_processor import process_rty_7z
+from st_aggrid import AgGrid
+
+AgGrid(df)
+
 
 @st.cache_data(show_spinner=False)
 def run_processing(uploaded_file):
@@ -125,6 +129,7 @@ if uploaded_file:
 
 
         
+
 
 
 
