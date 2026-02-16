@@ -43,76 +43,88 @@ if uploaded_file:
                 file_name="Laporan_RTY_Final.xlsx"
             )
 
-        with tab2: 
-            st.subheader("Choose Month")
-            month = st.selectbox("Choose Month", 
-                     ["Jan","Feb","Mar","Apr","May","Jun",
-                      "Jul","Aug","Sep","Oct","Nov","Dec"])
-            fig, ax = plt.subplots()
+        with tab2:
+            st.subheader("RTY Visualization")
 
-            stations = pivot.index
-            pass_vals = pivot["PASS"]
-            fail_vals = pivot["FAIL"]
-
-            # warna PASS tergantung customer
-            colors_pass = []
-            for cust in pivot["Customer"]:
-                if cust == "ABB":
-                    colors_pass.append("red")
-                elif cust == "Life Fitness":
-                    colors_pass.append("blue")
-                else:
-                    colors_pass.append("gray")
-
-            ax.bar(stations, pass_vals, color=colors_pass, label="PASS")
-            ax.bar(stations, fail_vals, bottom=pass_vals, color="black", label="FAIL")
-
-            for i in range(len(stations)):
-                total = pass_vals[i] + fail_vals[i]
-                ax.text(i, total + 3, int(total), ha='center', weight='bold')
-
-            for bar in ax.patches:
-                height = bar.get_height()
-                if height > 0:
-                    ax.text(
-                        bar.get_x() + bar.get_width()/2,
-                        bar.get_y() + height/2,
-                        int(height),
-                        ha='center',
-                        color='white',
-                        weight='bold',
-                        size=8
-                    )
+            # Filter Customer
             customers = st.multiselect(
                 "Choose Customer",
                 df_qty["Customer"].unique()
             )
-            df_filtered = df_qty[
-                (df_qty["Customer"].isin(customers)) &
-                (df_qty["QTY"] == "YIELD")
-            ]
-            fig, ax = plt.subplots()
+            
+            if customers:
 
-            for cust in customers:
-                df_cust = df_filtered[df_filtered["Customer"] == cust]
-                ax.bar(
-                    df_cust["Station"],
-                    df_cust[month],
-                    label=cust
+                # Filter data hanya YIELD
+                df_filtered = df_qty[
+                    (df_qty["Customer"].isin(customers)) &
+                    (df_qty["QTY"] == "YIELD")
+                ]
+        
+                # Pilih bulan
+                month = st.selectbox(
+                    "Choose Month",
+                    ["Jan","Feb","Mar","Apr","May","Jun",
+                     "Jul","Aug","Sep","Oct","Nov","Dec"]
                 )
+                # Buat pivot untuk stacked PASS/FAIL
+                pivot = df_filtered.pivot_table(
+                    index=["Station","Customer"],
+                    values=month,
+                    aggfunc="mean"
+                ).reset_index()
+        
+                if not pivot.empty:
+                    fig, ax = plt.subplots()
 
-            ax.set_ylim(0,100)
-            ax.set_ylabel("Yield (%)")
-            ax.legend()
+                    stations = pivot["Station"]
+                    values = pivot[month]
+        
+                    # Warna berdasarkan customer
+                    colors = []
+                    for cust in pivot["Customer"]:
+                        if cust == "ABB":
+                            colors.append("red")
+                        elif cust == "Life Fitness":
+                            colors.append("blue")
+                        else:
+                            colors.append("gray")
+                    bars = ax.bar(stations, values, color=colors)
+                    
 
-            st.set_page_config(
-                page_title="RTY Dashboard",
-                layout="wide"
-            )
+                    # Label angka di atas bar
+                    for i in range(len(stations)):
+                        ax.text(
+                            i,
+                            values.iloc[i] + 1,
+                            round(values.iloc[i], 1),
+                            ha='center',
+                            weight='bold'
+                        )
+                        
+                    ax.set_ylim(0, 100)
+                    ax.set_ylabel("Yield (%)")
+                    ax.set_title(f"RTY Performance - {month}")
+                    ax.set_xticklabels(stations, rotation=45)
+        
+                    st.pyplot(fig)
 
-            st.session_state["df_qty"] = df_qty
-            st.session_state["df_fail"] = df_fail
+                else:
+                    st.warning("No data available for selected filter.")
+            else:
+                st.info("Please select at least one customer.")
+                    
 
-            st.markdown("## 📈 RTY Performance Dashboard")
+
+                    
+                            
+                    
+
+
+
+
+
+
+        
+
 
 
