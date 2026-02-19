@@ -23,7 +23,7 @@ st.sidebar.caption("Require < 200MB and compressed .7z")
 if uploaded_file:
 
     with st.spinner("Processing file..."):
-        df_qty, df_fail, excel_buffer = run_processing(uploaded_file)
+        df_qty, df_fail, df_monthly, excel_buffer = run_processing(uploaded_file)
 
     if df_qty is not None:
 
@@ -38,6 +38,10 @@ if uploaded_file:
             st.subheader("Top 5 Fail Mode")
             AgGrid(df_fail)
 
+            st.subheader("Monthly Detail")
+            AgGrid(df_monthly)
+
+
             st.download_button(
                 "Download Integrated File",
                 excel_buffer,
@@ -47,73 +51,88 @@ if uploaded_file:
         with tab2:
             st.subheader("RTY Visualization")
 
+            # ===============
             # Filter Customer
+            # ===============
+            
             customers = st.multiselect(
                 "Choose Customer",
-                df_qty["Customer"].unique()
+                df_monthly["Customer"].unique()
             )
             
             if customers:
 
                 # Filter data hanya YIELD
-                df_filtered = df_qty[
-                    (df_qty["Customer"].isin(customers)) &
-                    (df_qty["QTY"] == "YIELD")
+                df_filtered = df_monthly[
+                    df_monthly["Customer"].isin(customers)
                 ]
-        
-                # Pilih bulan
+
+               
+                
                 month = st.selectbox(
                     "Choose Month",
-                    ["Jan","Feb","Mar","Apr","May","Jun",
-                     "Jul","Aug","Sep","Oct","Nov","Dec"]
+                   df_monthly["Customer"].isin(customers)
                 )
-                # Buat pivot untuk stacked PASS/FAIL
-                pivot = df_filtered.pivot_table(
-                    index=["Station","Customer"],
-                    values=month,
-                    aggfunc="mean"
-                ).reset_index()
+
+                # ===========
+                # Pilih bulan
+                # ===========
+
+                month = st.selectbox(
+                    "Choose Month",
+                    df_monthly["Month"].unique()
+                )
+
+                df_filtered = df_filtered[df_filtered["Month] == month]
+
+                
+                # =========================
+                # Select Metric
+                # =========================
+                metric = st.selectbox(
+                    "Choose Metric",
+                    ["Total_QTY_IN",
+                     "Total_QTY_PASS",
+                     "Total_QTY_FAIL",
+                     "Yield"]
+                )
+
+                if not df_filtered.empty:
         
-                if not pivot.empty:
                     fig, ax = plt.subplots()
-
-                    stations = pivot["Station"]
-                    values = pivot[month]
         
-                    # Warna berdasarkan customer
-                    colors = []
-                    for cust in pivot["Customer"]:
-                        if cust == "ABB":
-                            colors.append("red")
-                        elif cust == "Life Fitness":
-                            colors.append("blue")
-                        else:
-                            colors.append("gray")
-                    bars = ax.bar(stations, values, color=colors)
-                    
-
-                    # Label angka di atas bar
+                    stations = df_filtered["Station"]
+                    values = df_filtered[metric]
+        
+                    bars = ax.bar(stations, values)
+        
+                    # Label
                     for i in range(len(stations)):
                         ax.text(
                             i,
-                            values.iloc[i] + 1,
-                            round(values.iloc[i], 1),
+                            values.iloc[i],
+                            round(values.iloc[i], 2),
                             ha='center',
+                            va='bottom',
                             weight='bold'
                         )
-                        
-                    ax.set_ylim(0, 100)
-                    ax.set_ylabel("Yield (%)")
-                    ax.set_title(f"RTY Performance - {month}")
+        
+                    ax.set_ylabel(metric)
+        
+                    if metric == "Yield":
+                        ax.set_ylim(0, 100)
+        
+                    ax.set_title(f"{metric} - {month}")
                     ax.set_xticklabels(stations, rotation=45)
         
                     st.pyplot(fig)
-
+        
                 else:
                     st.warning("No data available for selected filter.")
+        
             else:
                 st.info("Please select at least one customer.")
-                    
+                
 
 
                     
@@ -126,6 +145,7 @@ if uploaded_file:
 
 
         
+
 
 
 
