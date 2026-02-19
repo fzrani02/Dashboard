@@ -142,17 +142,7 @@ if uploaded_file:
                         )
                     
                     # Legend manual
-                    legend_elements = [
-                        Patch(facecolor=color_map[cust], label=cust)
-                        for cust in unique_customers
-                    ]
-                
-                    ax.legend(
-                        handles=legend_elements,
-                        title="Customer"
-                    )
-
-                
+                   
 
                     ax.set_xlabel(metric)
                     ax.set_ylabel("Station")
@@ -167,7 +157,16 @@ if uploaded_file:
                         ax.set_xlim(0, x_max * 1.15)
                     
                     ax.legend(title="Customer")
-                    
+                    legend_elements = [
+                        Patch(facecolor=color_map[cust], label=cust)
+                        for cust in unique_customers
+                        ]
+                
+                    ax.legend(
+                        handles=legend_elements,
+                        title="Customer"
+                        )
+
                     plt.tight_layout()
                     st.pyplot(fig)
             else:
@@ -185,6 +184,7 @@ if uploaded_file:
 
 
         
+
 
 
 
