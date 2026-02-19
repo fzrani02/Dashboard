@@ -83,7 +83,7 @@ if uploaded_file:
                     ["Total_QTY_IN",
                      "Total_QTY_PASS",
                      "Total_QTY_FAIL",
-                     "Total Yield (%)"]
+                     "Yield"]
                 )
         
                 df_filtered = df_monthly[
@@ -162,7 +162,7 @@ if uploaded_file:
                     # Tambah padding kanan supaya label tidak kepotong
                     x_max = df_filtered[metric].max()
                     
-                    if metric == "Total Yield (%)":
+                    if metric == "Yield":
                         ax.set_ylim(0, 105)
                     else:
                         ax.set_ylim(0, x_max * 1.15)
@@ -196,6 +196,7 @@ if uploaded_file:
 
 
         
+
 
 
 
