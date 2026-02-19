@@ -151,7 +151,7 @@ def process_rty_7z(uploaded_file):
                     # ==============================
                     # MONTHLY DETAIL
                     # ==============================
-                    monthly_detail_data = []
+                   
                     for month in months:
                         if month in df.columns:
 
@@ -216,6 +216,7 @@ def process_rty_7z(uploaded_file):
     finally:
         if os.path.exists(temp_dir):
             shutil.rmtree(temp_dir)
+
 
 
 
