@@ -20,7 +20,8 @@ uploaded_file = st.sidebar.file_uploader(
     type=["7z"]
 )
 
-st.sidebar.caption("Require < 200MB and compressed .7z")
+st.sidebar.caption("Format Folder: Folder > Customer > Station > Excel files")
+st.sidebar.caption("Example: RTY > ABB > FCT > AB_010.xlsx")
 
 if uploaded_file:
 
@@ -194,6 +195,7 @@ if uploaded_file:
 
 
         
+
 
 
 
