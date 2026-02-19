@@ -54,8 +54,8 @@ def process_rty_7z(uploaded_file):
                     filename = parts[-1]
                     
                     if len(parts) >= 3:
-                        customer = parts[0]
-                        station = parts[1]
+                        customer = parts[-2]
+                        station = parts[-3]
                     else:
                         customer = "Unknown"
                         station = "Unknown"
@@ -219,6 +219,7 @@ def process_rty_7z(uploaded_file):
     finally:
         if os.path.exists(temp_dir):
             shutil.rmtree(temp_dir)
+
 
 
 
