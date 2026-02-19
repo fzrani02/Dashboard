@@ -175,6 +175,7 @@ def process_rty_7z(uploaded_file):
 
 
 
+        print("RETURNING 4 VALUES")
 
         if not all_data:
             return None, None, None, None
@@ -215,5 +216,6 @@ def process_rty_7z(uploaded_file):
     finally:
         if os.path.exists(temp_dir):
             shutil.rmtree(temp_dir)
+
 
 
