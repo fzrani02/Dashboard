@@ -47,10 +47,18 @@ def process_rty_7z(uploaded_file):
 
                     full_path = os.path.join(root_dir, file)
 
-                    parts = full_path.split(os.sep)
+                    relative_path = os.path.relpath(full_path, temp_dir)
+                    parts = relative_path.split(os.sep)
+                    
                     filename = parts[-1]
-                    station = parts[-2] if len(parts) >= 2 else ""
-                    customer = parts[-3] if len(parts) >= 3 else ""
+                    
+                    if len(parts) >= 3:
+                        customer = parts[0]
+                        station = parts[1]
+                    else:
+                        customer = "Unknown"
+                        station = "Unknown"
+
 
                     # ==============================
                     # QTY
@@ -216,6 +224,7 @@ def process_rty_7z(uploaded_file):
     finally:
         if os.path.exists(temp_dir):
             shutil.rmtree(temp_dir)
+
 
 
 
