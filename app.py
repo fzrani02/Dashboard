@@ -109,30 +109,40 @@ if uploaded_file:
                     fig_height = max(6, total_bars * 0.6)
                     
                     fig, ax = plt.subplots(figsize=(12, fig_height))
+
+                    # ==========================
+                    # Buat label unik Customer | Station
+                    # ==========================
+                    df_filtered = df_filtered.copy()
+                    df_filtered["Station_Label"] = (
+                        df_filtered["Customer"] + " | " + df_filtered["Station"]
+                    )
                     
-                    for cust in unique_customers:
+                    # Warna per bar berdasarkan customer
+                    bar_colors = df_filtered["Customer"].map(color_map)
                     
-                        cust_data = df_filtered[df_filtered["Customer"] == cust]
+                    # Plot horizontal bar (sekali saja, bukan loop)
+                    bars = ax.barh(
+                        df_filtered["Station_Label"],
+                        df_filtered[metric],
+                        color=bar_colors
+                    )
                     
-                        ax.barh(
-                            cust_data["Station"],
-                            cust_data[metric],
-                            label=cust,
-                            color=color_map[cust]
+                    # Label angka
+                    for i, value in enumerate(df_filtered[metric]):
+                        ax.text(
+                            value,
+                            i,
+                            round(value, 2),
+                            va='center',
+                            ha='left',
+                            fontsize=8
                         )
                     
-                        # Label angka lebih kecil
-                        for i, value in enumerate(cust_data[metric]):
-                            ax.text(
-                                value,
-                                cust_data["Station"].iloc[i],
-                                round(value, 2),
-                                va='center',
-                                ha='left',
-                                fontsize=8,      # <<< kecilkan font
-                                fontweight='normal'
-                            )
-                    
+                    # Legend manual
+                    for cust in unique_customers:
+                        ax.barh([], [], color=color_map[cust], label=cust)
+
                     ax.set_xlabel(metric)
                     ax.set_ylabel("Station")
                     ax.set_title(f"{metric} - {month}")
@@ -164,6 +174,7 @@ if uploaded_file:
 
 
         
+
 
 
 
