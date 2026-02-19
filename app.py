@@ -147,8 +147,9 @@ if uploaded_file:
                     # Legend manual
                    
 
-                    ax.set_xlabel(metric)
-              
+                    ax.set_xlabel("Station")
+                    ax.set_ylabel(metric)
+                    
                     ax.set_title(f"{metric} - {month}")
 
                     ax.set_xticklabels(
@@ -195,6 +196,7 @@ if uploaded_file:
 
 
         
+
 
 
 
