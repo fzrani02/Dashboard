@@ -116,9 +116,9 @@ if uploaded_file:
                             color=color_map[cust]
                         )
 
-                        #Label nilai
+                        # Label nilai
                         for i, value in enumerate(cust_data[metric]):
-                            ax.test(
+                            ax.text(
                                 value,
                                 cust_data["Station"].iloc[i],
                                 round(value, 2),
@@ -156,6 +156,7 @@ if uploaded_file:
 
 
         
+
 
 
 
