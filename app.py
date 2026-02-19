@@ -124,22 +124,24 @@ if uploaded_file:
                     bar_colors = df_filtered["Customer"].map(color_map)
                     
                     # Plot horizontal bar (sekali saja, bukan loop)
-                    bars = ax.barh(
+                    bars = ax.bar(
                         df_filtered["Station_Label"],
                         df_filtered[metric],
                         color=bar_colors
                     )
+
                     
                     # Label angka
                     for i, value in enumerate(df_filtered[metric]):
                         ax.text(
-                            value,
                             i,
+                            value,
                             round(value, 2),
-                            va='center',
-                            ha='left',
+                            ha='center',
+                            va='bottom',
                             fontsize=8
                         )
+
                     
                     # Legend manual
                    
@@ -147,14 +149,22 @@ if uploaded_file:
                     ax.set_xlabel(metric)
               
                     ax.set_title(f"{metric} - {month}")
+
+                    ax.set_xticklabels(
+                        df_filtered["Station_Label"],
+                        rotation=45,
+                        ha="right"
+                    )
+
                     
                     # Tambah padding kanan supaya label tidak kepotong
                     x_max = df_filtered[metric].max()
                     
                     if metric == "Yield":
-                        ax.set_xlim(0, 105)
+                        ax.set_ylim(0, 105)
                     else:
-                        ax.set_xlim(0, x_max * 1.15)
+                        ax.set_ylim(0, x_max * 1.15)
+
                     
                     ax.legend(title="Customer")
                     legend_elements = [
@@ -184,6 +194,7 @@ if uploaded_file:
 
 
         
+
 
 
 
