@@ -168,7 +168,6 @@ if uploaded_file:
                         ax.set_ylim(0, x_max * 1.15)
 
                     
-                    ax.legend(title="Customer")
                     legend_elements = [
                         Patch(facecolor=color_map[cust], label=cust)
                         for cust in unique_customers
@@ -196,6 +195,7 @@ if uploaded_file:
 
 
         
+
 
 
 
