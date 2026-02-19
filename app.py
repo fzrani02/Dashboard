@@ -4,9 +4,8 @@ import streamlit as st
 from rty_processor import process_rty_7z
 from st_aggrid import AgGrid
 
-@st.cache_data(show_spinner=False)
 st.cache_data.clear()
-
+@st.cache_data(show_spinner=False)
 def run_processing(uploaded_file):
     return process_rty_7z(uploaded_file)
 
@@ -147,6 +146,7 @@ if uploaded_file:
 
 
         
+
 
 
 
