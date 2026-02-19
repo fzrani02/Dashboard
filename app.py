@@ -1,4 +1,6 @@
 import matplotlib.pyplot as plt
+from matplotlib.patches import Patch
+
 import pandas as pd
 import streamlit as st
 from rty_processor import process_rty_7z
@@ -140,8 +142,17 @@ if uploaded_file:
                         )
                     
                     # Legend manual
-                    for cust in unique_customers:
-                        ax.barh([], [], color=color_map[cust], label=cust)
+                    legend_elements = [
+                        Patch(facecolor=color_map[cust], label=cust)
+                        for cust in unique_customers
+                    ]
+                
+                    ax.legend(
+                        handles=legend_elements,
+                        title="Customer"
+                    )
+
+                
 
                     ax.set_xlabel(metric)
                     ax.set_ylabel("Station")
@@ -174,6 +185,7 @@ if uploaded_file:
 
 
         
+
 
 
 
