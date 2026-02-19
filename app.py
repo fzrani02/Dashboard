@@ -145,7 +145,7 @@ if uploaded_file:
                    
 
                     ax.set_xlabel(metric)
-                    ax.set_ylabel("Station")
+              
                     ax.set_title(f"{metric} - {month}")
                     
                     # Tambah padding kanan supaya label tidak kepotong
@@ -184,6 +184,7 @@ if uploaded_file:
 
 
         
+
 
 
 
