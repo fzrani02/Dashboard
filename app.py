@@ -67,13 +67,6 @@ if uploaded_file:
                     df_monthly["Customer"].isin(customers)
                 ]
 
-               
-                
-                month = st.selectbox(
-                    "Choose Month",
-                   df_monthly["Customer"].isin(customers)
-                )
-
                 # ===========
                 # Pilih bulan
                 # ===========
@@ -145,6 +138,7 @@ if uploaded_file:
 
 
         
+
 
 
 
