@@ -83,7 +83,7 @@ if uploaded_file:
                     df_monthly["Month"].unique()
                 )
 
-                df_filtered = df_filtered[df_filtered["Month] == month]
+                df_filtered = df_filtered[df_filtered["Month"] == month]
 
                 
                 # =========================
@@ -145,6 +145,7 @@ if uploaded_file:
 
 
         
+
 
 
 
