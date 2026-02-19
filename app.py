@@ -104,15 +104,8 @@ if uploaded_file:
                         for i, cust in enumerate(unique_customers)
                     }
 
-                    # ==========================
-                    # Hitung jumlah bar
-                    # ==========================
-                    total_bars = len(df_filtered)
-                    
-                    # Tinggi dinamis (0.6 per bar, minimum 6)
-                    fig_height = max(6, total_bars * 0.6)
-                    
-                    fig, ax = plt.subplots(figsize=(12, fig_height))
+                    fig, ax = plt.subplots(figsize=(14, 6))  # tinggi tetap
+
 
                     # ==========================
                     # Buat label unik Customer | Station
@@ -155,8 +148,8 @@ if uploaded_file:
 
                     ax.set_xticklabels(
                         df_filtered["Station_Label"],
-                        rotation=45,
-                        ha="right"
+                        rotation=90,
+                        fontsize=7
                     )
 
                     
@@ -196,6 +189,7 @@ if uploaded_file:
 
 
         
+
 
 
 
