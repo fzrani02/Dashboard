@@ -111,10 +111,10 @@ def process_rty_7z(uploaded_file):
                                 "Customer": customer,
                                 "Station": station,
                                 "Month": month,
-                                "Total_QTY_IN": qty_in if pd.notna(qty_in) else 0,
-                                "Total_QTY_PASS": qty_pass if pd.notna(qty_pass) else 0,
-                                "Total_QTY_FAIL": qty_fail if pd.notna(qty_fail) else 0,
-                                "Yield": yield_value
+                                "TOTAL QTY IN": qty_in if pd.notna(qty_in) else 0,
+                                "TOTAL QTY PASS": qty_pass if pd.notna(qty_pass) else 0,
+                                "TOTAL QTY FAIL": qty_fail if pd.notna(qty_fail) else 0,
+                                "TOTAL YIELD (%) ": yield_value
                             })
 
                     # ==============================
@@ -191,18 +191,18 @@ def process_rty_7z(uploaded_file):
             monthly_df
             .groupby(["Customer", "Station", "Month"], as_index=False)
             .agg({
-                "Total_QTY_IN": "sum",
-                "Total_QTY_PASS": "sum",
-                "Total_QTY_FAIL": "sum"
+                "TOTAL QTY IN": "sum",
+                "TOTAL QTY PASS": "sum",
+                "TOTAL QTY FAIL": "sum"
             })
         )
 
-        monthly_df["Yield"] = (
-            monthly_df["Total_QTY_PASS"] / 
-            monthly_df["Total_QTY_IN"].replace(0, pd.NA) 
+        monthly_df["TOTAL YIELD (%)"] = (
+            monthly_df["TOTAL QTY PASS"] / 
+            monthly_df["TOTAL QTY IN"].replace(0, pd.NA) 
         ) * 100
 
-        monthly_df["Yield"] = monthly_df["Yield"].fillna(0).round(2)
+        monthly_df["TOTAL YIELD (%)"] = monthly_df["TOTAL YIELD (%)"].fillna(0).round(2)
 
         output_buffer = BytesIO()
 
@@ -219,6 +219,7 @@ def process_rty_7z(uploaded_file):
     finally:
         if os.path.exists(temp_dir):
             shutil.rmtree(temp_dir)
+
 
 
 
