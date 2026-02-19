@@ -1,4 +1,3 @@
-st.cache_data.clear()
 
 import matplotlib.pyplot as plt
 from matplotlib.patches import Patch
@@ -197,6 +196,7 @@ if uploaded_file:
 
 
         
+
 
 
 
