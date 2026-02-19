@@ -162,7 +162,7 @@ if uploaded_file:
                     # Tambah padding kanan supaya label tidak kepotong
                     x_max = df_filtered[metric].max()
                     
-                    if metric == "Yield":
+                    if metric == "Total Yield (%)":
                         ax.set_ylim(0, 105)
                     else:
                         ax.set_ylim(0, x_max * 1.15)
@@ -196,6 +196,7 @@ if uploaded_file:
 
 
         
+
 
 
 
