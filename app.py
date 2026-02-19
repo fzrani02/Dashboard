@@ -51,37 +51,30 @@ if uploaded_file:
         with tab2:
             st.subheader("RTY Visualization")
 
+            # ==========================
+            # Urutan Bulan Fix
+            # ==========================
+            month_order = ["Jan","Feb","Mar","Apr","May","Jun",
+                           "Jul","Aug","Sep","Oct","Nov","Dec"]
+        
+            available_months = [m for m in month_order if m in df_monthly["Month"].unique()]
+
             # ===============
             # Filter Customer
             # ===============
             
             customers = st.multiselect(
                 "Choose Customer",
-                df_monthly["Customer"].unique()
+                (df_monthly["Customer"].unique())
             )
             
             if customers:
-
-                # Filter data hanya YIELD
-                df_filtered = df_monthly[
-                    df_monthly["Customer"].isin(customers)
-                ]
-
-                # ===========
-                # Pilih bulan
-                # ===========
-
+                
                 month = st.selectbox(
                     "Choose Month",
-                    df_monthly["Month"].unique()
+                    available_months
                 )
-
-                df_filtered = df_filtered[df_filtered["Month"] == month]
-
-                
-                # =========================
-                # Select Metric
-                # =========================
+        
                 metric = st.selectbox(
                     "Choose Metric",
                     ["Total_QTY_IN",
@@ -89,36 +82,61 @@ if uploaded_file:
                      "Total_QTY_FAIL",
                      "Yield"]
                 )
-
+        
+                df_filtered = df_monthly[
+                    (df_monthly["Customer"].isin(customers)) &
+                    (df_monthly["Month"] == month)
+                ]
+               
                 if not df_filtered.empty:
         
-                    fig, ax = plt.subplots()
-        
-                    stations = df_filtered["Station"]
-                    values = df_filtered[metric]
-        
-                    bars = ax.bar(stations, values)
-        
-                    # Label
-                    for i in range(len(stations)):
-                        ax.text(
-                            i,
-                            values.iloc[i],
-                            round(values.iloc[i], 2),
-                            ha='center',
-                            va='bottom',
-                            weight='bold'
+                    # ===========
+                    # Warna Per Customer
+                    # ===========
+                    unique_customers = df_filtered["Customer"].unique()
+                    colors = plt.cm.tab10(range(len(unique_customers)))
+                    color_map = {
+                        cust: colors[i]
+                        for i, cust in enumerate(unique_customers)
+                    }
+
+                    fig, ax = plt.subplots(figsize=(10,6))
+
+                    # ========
+                    # Horizontal Bar Chart
+                    # ========
+
+                    for cust in unique_customers:
+                        cust_data = df_filtered[df_filtered["Customer"] == cust]
+
+                        ax.barh(
+                            cust_data["Station"], 
+                            cust_data[metric],
+                            label=cust,
+                            color=color_map[cust]
                         )
-        
-                    ax.set_ylabel(metric)
-        
-                    if metric == "Yield":
-                        ax.set_ylim(0, 100)
-        
-                    ax.set_title(f"{metric} - {month}")
-                    ax.set_xticklabels(stations, rotation=45)
-        
-                    st.pyplot(fig)
+
+                        #Label nilai
+                        for i, value in enumerate(cust_data[metric]):
+                            ax.test(
+                                value,
+                                cust_data["Station"].iloc[i],
+                                round(value, 2),
+                                va='center', 
+                                ha='left', 
+                                fontweight='bold'
+                            )
+
+                        ax.set_xlabel(metric)
+                        ax.set_ylabel("Station")
+                        ax.set_title(f"{metric} - {month}")
+            
+                        if metric == "Yield":
+                            ax.set_xlim(0, 100)
+            
+                        ax.legend(title="Customer")
+            
+                        st.pyplot(fig)
         
                 else:
                     st.warning("No data available for selected filter.")
@@ -138,6 +156,7 @@ if uploaded_file:
 
 
         
+
 
 
 
