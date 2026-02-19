@@ -83,7 +83,7 @@ if uploaded_file:
                     ["Total_QTY_IN",
                      "Total_QTY_PASS",
                      "Total_QTY_FAIL",
-                     "Yield"]
+                     "Total Yield (%)"]
                 )
         
                 df_filtered = df_monthly[
@@ -196,6 +196,7 @@ if uploaded_file:
 
 
         
+
 
 
 
