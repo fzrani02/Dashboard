@@ -49,7 +49,7 @@ if uploaded_file:
             st.download_button(
                 "Download Integrated File",
                 excel_buffer,
-                file_name="Laporan_RTY_Final.xlsx"
+                file_name="Report_Final.xlsx"
             )
 
         with tab2:
@@ -189,6 +189,7 @@ if uploaded_file:
 
 
         
+
 
 
 
