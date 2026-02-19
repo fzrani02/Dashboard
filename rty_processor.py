@@ -29,6 +29,7 @@ def process_rty_7z(uploaded_file):
     all_top5_data = []
     monthly_detail_data = []
 
+    months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]
 
     try:
         # ==============================
@@ -93,6 +94,30 @@ def process_rty_7z(uploaded_file):
                     all_data.append(df)
 
                     # ==============================
+                    # MONTHLY DETAIL
+                    # ==============================
+                    for month in months:
+                        if month in df.columns:
+
+                            qty_in = pd.to_numeric(df.loc[0, month], errors="coerce")
+                            qty_pass = pd.to_numeric(df.loc[1, month], errors="coerce")
+                            qty_fail = pd.to_numeric(df.loc[2, month], errors="coerce")
+
+                            yield_value = 0
+                            if pd.notna(qty_in) and qty_in != 0:
+                                yield_value = round((qty_pass / qty_in) * 100, 2)
+                            
+                            monthly_detail_data.append({
+                                "Customer": customer,
+                                "Station": station,
+                                "Month": month,
+                                "Total_QTY_IN": qty_in if pd.notna(qty_in) else 0,
+                                "Total_QTY_PASS": qty_pass if pd.notna(qty_pass) else 0,
+                                "Total_QTY_FAIL": qty_fail if pd.notna(qty_fail) else 0,
+                                "Yield": yield_value
+                            })
+
+                    # ==============================
                     # FAIL MODE
                     # ==============================
                     df_fail = pd.read_excel(
@@ -107,8 +132,7 @@ def process_rty_7z(uploaded_file):
                     df_fail.rename(columns={"FAIL MODE / LOC": "FailMode"}, inplace=True)
                     df_fail = df_fail[df_fail["FailMode"].notna()]
 
-                    months = ["Jan","Feb","Mar","Apr","May","Jun",
-                              "Jul","Aug","Sep","Oct","Nov","Dec"]
+                  
 
                     df_fail[months] = df_fail[months].apply(
                         lambda x: pd.to_numeric(x, errors="coerce")
@@ -156,35 +180,6 @@ def process_rty_7z(uploaded_file):
                                     "Project": filename
                                 })
 
-                    # ==============================
-                    # MONTHLY DETAIL
-                    # ==============================
-                   
-                    for month in months:
-                        if month in df.columns:
-
-                            qty_in = pd.to_numeric(df.loc[0, month], errors="coerce")
-                            qty_pass = pd.to_numeric(df.loc[1, month], errors="coerce")
-                            qty_fail = pd.to_numeric(df.loc[2, month], errors="coerce")
-
-                            yield_value = 0
-                            if pd.notna(qty_in) and qty_in != 0:
-                                yield_value = round((qty_pass / qty_in) * 100, 2)
-                            
-                            monthly_detail_data.append({
-                                "Customer": customer,
-                                "Station": station,
-                                "Month": month,
-                                "Total_QTY_IN": qty_in if pd.notna(qty_in) else 0,
-                                "Total_QTY_PASS": qty_pass if pd.notna(qty_pass) else 0,
-                                "Total_QTY_FAIL": qty_fail if pd.notna(qty_fail) else 0,
-                                "Yield": yield_value
-                            })
-
-
-
-        print("RETURNING 4 VALUES")
-
         if not all_data:
             return None, None, None, None
 
@@ -224,6 +219,7 @@ def process_rty_7z(uploaded_file):
     finally:
         if os.path.exists(temp_dir):
             shutil.rmtree(temp_dir)
+
 
 
 
