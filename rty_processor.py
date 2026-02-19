@@ -114,7 +114,7 @@ def process_rty_7z(uploaded_file):
                                 "TOTAL QTY IN": qty_in if pd.notna(qty_in) else 0,
                                 "TOTAL QTY PASS": qty_pass if pd.notna(qty_pass) else 0,
                                 "TOTAL QTY FAIL": qty_fail if pd.notna(qty_fail) else 0,
-                                "TOTAL YIELD (%) ": yield_value
+                                "TOTAL YIELD (%)": yield_value
                             })
 
                     # ==============================
@@ -219,6 +219,7 @@ def process_rty_7z(uploaded_file):
     finally:
         if os.path.exists(temp_dir):
             shutil.rmtree(temp_dir)
+
 
 
 
