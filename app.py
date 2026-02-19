@@ -100,47 +100,55 @@ if uploaded_file:
                         for i, cust in enumerate(unique_customers)
                     }
 
-                    fig, ax = plt.subplots(figsize=(10,6))
-
-                    # ========
-                    # Horizontal Bar Chart
-                    # ========
-
+                    # ==========================
+                    # Hitung jumlah bar
+                    # ==========================
+                    total_bars = len(df_filtered)
+                    
+                    # Tinggi dinamis (0.6 per bar, minimum 6)
+                    fig_height = max(6, total_bars * 0.6)
+                    
+                    fig, ax = plt.subplots(figsize=(12, fig_height))
+                    
                     for cust in unique_customers:
+                    
                         cust_data = df_filtered[df_filtered["Customer"] == cust]
-
+                    
                         ax.barh(
-                            cust_data["Station"], 
+                            cust_data["Station"],
                             cust_data[metric],
                             label=cust,
                             color=color_map[cust]
                         )
-
-                        # Label nilai
+                    
+                        # Label angka lebih kecil
                         for i, value in enumerate(cust_data[metric]):
                             ax.text(
                                 value,
                                 cust_data["Station"].iloc[i],
                                 round(value, 2),
-                                va='center', 
-                                ha='left', 
-                                fontweight='bold'
+                                va='center',
+                                ha='left',
+                                fontsize=8,      # <<< kecilkan font
+                                fontweight='normal'
                             )
-
-                        ax.set_xlabel(metric)
-                        ax.set_ylabel("Station")
-                        ax.set_title(f"{metric} - {month}")
-            
-                        if metric == "Yield":
-                            ax.set_xlim(0, 200)
-            
-                        ax.legend(title="Customer")
-            
-                        st.pyplot(fig)
-        
-                else:
-                    st.warning("No data available for selected filter.")
-        
+                    
+                    ax.set_xlabel(metric)
+                    ax.set_ylabel("Station")
+                    ax.set_title(f"{metric} - {month}")
+                    
+                    # Tambah padding kanan supaya label tidak kepotong
+                    x_max = df_filtered[metric].max()
+                    
+                    if metric == "Yield":
+                        ax.set_xlim(0, 105)
+                    else:
+                        ax.set_xlim(0, x_max * 1.15)
+                    
+                    ax.legend(title="Customer")
+                    
+                    plt.tight_layout()
+                    st.pyplot(fig)
             else:
                 st.info("Please select at least one customer.")
                 
@@ -156,6 +164,7 @@ if uploaded_file:
 
 
         
+
 
 
 
