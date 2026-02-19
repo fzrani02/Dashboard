@@ -132,7 +132,7 @@ if uploaded_file:
                         ax.set_title(f"{metric} - {month}")
             
                         if metric == "Yield":
-                            ax.set_xlim(0, 100)
+                            ax.set_xlim(0, 200)
             
                         ax.legend(title="Customer")
             
@@ -156,6 +156,7 @@ if uploaded_file:
 
 
         
+
 
 
 
