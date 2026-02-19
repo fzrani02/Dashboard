@@ -210,8 +210,9 @@ def process_rty_7z(uploaded_file):
 
         output_buffer.seek(0)
 
-        return final_df, top5_df, output_buffer
+        return final_df, top5_df, monthly_df, output_buffer
 
     finally:
         if os.path.exists(temp_dir):
             shutil.rmtree(temp_dir)
+
