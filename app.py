@@ -81,9 +81,7 @@ if uploaded_file:
         
                 metric = st.selectbox(
                     "Choose Metric",
-                    ["TOTAL QTY IN",
-                     "TOTAL QTY PASS",
-                     "TOTAL QTY FAIL",
+                    ["TOTAL QTY",
                      "TOTAL YIELD (%)"]
                 )
         
@@ -118,14 +116,117 @@ if uploaded_file:
                     # Warna per bar berdasarkan customer
                     bar_colors = df_filtered["Customer"].map(color_map)
                     
-                    # Plot horizontal bar (sekali saja, bukan loop)
-                    bars = ax.bar(
-                        df_filtered["Station_Label"],
-                        df_filtered[metric],
-                        color=bar_colors
+                    fig, ax = plt.subplot(figsize=(14,6))
+
+                    df_filtered = df_filtered.copy()
+                    df_filtered["Station_Label"] = (
+                        df_filtered["Customer"] + " | " + df_filtered["Station"]
                     )
 
-                    
+                    if metric == "TOTAL QTY":
+
+                        df_filtered = df_filtered.copy()
+                        df_filtered["Station_Label"] = (
+                            df_filtered["Customer"] + "|" + df_filtered["Station"]
+                        )
+                        
+                        pass_values = df_filtered["TOTAL QTY PASS"]
+                        fail_values = df_filtered["TOTAL QTY FAIL"]
+                        total_values = pass_values + fail_values
+
+                        # ==============
+                        # Warna PASS per customer
+                        # ==============
+
+                        unique_customers = df_filtered["Customer'].unique()
+                        colors = plt.cm.tab10(range(len(unique_customers)))
+                        color_map = {
+                                cust: colors[i]
+                                for i, cust in enumerate(unique_customers)
+                        }
+
+                        pass_colors = df_filtered["Customer"].map(color_map)
+
+                        # ==============
+                        # Plot stacked bar
+                        # ==============
+
+                        bars_pass = ax.bar(
+                            df_filtered["Station_Label"],
+                            pass_values,
+                            color = pass_colors,
+                            label = "PASS"
+                        )
+
+                        bars_fail = ax.bar(
+                            df_filtered["Station_Label"],
+                            fail_values,
+                            bottom=pass_values,
+                            color = "black", 
+                            label="FAIL"
+                        )
+
+                        # ============
+                        # LABEL ANGKA
+                        # ============
+
+                        for i in range(len(df_filtered)):
+
+                            # Label PASS 
+                            ax.text(
+                                i,
+                                pass_values.iloc[i] / 2,
+                                int(pass_values.iloc[i]),
+                                ha='center',
+                                va= 'center', 
+                                fontsize = 8,
+                                color = 'white'
+                            )
+
+                            # Label FAIL 
+                            ax.text(
+                                i, 
+                                pass_values.iloc[i] + (fail_values.iloc[i] / 2),
+                                int(fail_values.iloc[i]),
+                                ha='center',
+                                va = 'center', 
+                                fontsize = 8, 
+                                color = 'white'
+                            )
+
+                            # Label TOTAL 
+                            ax.text(
+                                i, 
+                                total_values.iloc[i],
+                                int(total_values.iloc[i]),
+                                ha = 'center',
+                                va = 'bottom', 
+                                fontsize = 9,
+                                fontweight = 'bold'
+                            )
+
+                    # ===========
+                    # Legend
+                    # ===========
+
+                    legend_element= [
+                        Patch(facecolor=color_map[cust], label = cust)
+                        for cust in unique_customers
+                    ]
+
+                    legend_elements.append(
+                        Patch(facecolor = "black", label = "FAIL")
+                    )
+
+                    ax.legend(handles = legend_elements, title = "Customer / Fail")
+
+                    ax.set_ylabel("TOTAL QTY")
+                    ax.set_title(f"TOTAL QTY (PASS + FAIL) - {month}")
+
+                    y_max = total_values.max()
+                    ax.set_ylim(0, y_max * 1.20)
+
+                            
                     # Label angka
                     for i, value in enumerate(df_filtered[metric]):
                         ax.text(
@@ -189,6 +290,7 @@ if uploaded_file:
 
 
         
+
 
 
 
