@@ -152,6 +152,7 @@ if uploaded_file:
                                     ha='center',
                                     va='bottom',
                                     fontsize=fail_size,
+                                    fontweight='bold',
                                     color='black'
                                 )
 
@@ -250,6 +251,7 @@ if uploaded_file:
         
             else:
                 st.info("Please select at least one customer.")
+
 
 
 
