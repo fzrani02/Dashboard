@@ -190,6 +190,9 @@ if uploaded_file:
                             Patch(facecolor=color_map[cust], label=cust)
                             for cust in unique_customers
                         ]
+                        
+                        ax.legend(handles=legend_elements, title="Customer / Fail")
+
                              
                         ax.set_ylabel("Quantity")
                         ax.set_title(f"Total Quantity (QTY Pass + QTY Fail) per Station - {month}")
@@ -247,6 +250,7 @@ if uploaded_file:
         
             else:
                 st.info("Please select at least one customer.")
+
 
 
 
