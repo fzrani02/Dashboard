@@ -168,9 +168,12 @@ if uploaded_file:
                                 )
 
                             # TOTAL label (di atas stack)
+                            y_max = total_values.max()
+                            offset = y_max *0.03
+                            
                             ax.text(
                                 i,
-                                total_val + (total_val * 0.05),
+                                total_val + offset,
                                 int(total_val),
                                 ha='center',
                                 va='bottom',
@@ -244,6 +247,7 @@ if uploaded_file:
         
             else:
                 st.info("Please select at least one customer.")
+
 
 
 
