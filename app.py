@@ -53,7 +53,7 @@ if uploaded_file:
             )
 
         with tab2:
-            st.subheader("RTY Visualization")
+            st.subheader("Quantity and Yield")
 
             # ==========================
             # Urutan Bulan Fix
@@ -189,6 +189,7 @@ if uploaded_file:
 
 
         
+
 
 
 
