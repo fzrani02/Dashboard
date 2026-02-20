@@ -191,7 +191,7 @@ if uploaded_file:
                             for cust in unique_customers
                         ]
                         
-                        ax.legend(handles=legend_elements, title="Customer / Fail")
+                        ax.legend(handles=legend_elements, title="Index")
 
                              
                         ax.set_ylabel("Quantity")
@@ -250,6 +250,7 @@ if uploaded_file:
         
             else:
                 st.info("Please select at least one customer.")
+
 
 
 
