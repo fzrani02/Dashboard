@@ -138,7 +138,7 @@ if uploaded_file:
                         # Warna PASS per customer
                         # ==============
 
-                        unique_customers = df_filtered["Customer'].unique()
+                        unique_customers = df_filtered["Customer"].unique()
                         colors = plt.cm.tab10(range(len(unique_customers)))
                         color_map = {
                                 cust: colors[i]
@@ -290,6 +290,7 @@ if uploaded_file:
 
 
         
+
 
 
 
