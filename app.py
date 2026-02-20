@@ -131,43 +131,52 @@ if uploaded_file:
                         n_bars = len(df_filtered)
 
                         # Dynamic font size
-                        label_size = max(6, 12 - int(n_bars * 0.4))
+                        base_size = max(6, 12 - int(n_bars * 0.4))
+
+                        fail_size = base_size - 1
+                        pass_size = base_size
+                        total_size = base_size + 2
 
                         for i in range(n_bars):
 
-                            # FAIL label (di tengah FAIL)
-                            if fail_values.iloc[i] > 0:
+                            fail_val = fail_values.iloc[i]
+                            pass_val = pass_values.iloc[i]
+                            total_val = total_values.iloc[i]
+
+                            # FAIL label (hitam, diatas FAIL bar)
+                            if fail_val > 0:
                                 ax.text(
                                     i,
-                                    fail_values.iloc[i] / 2,
-                                    int(fail_values.iloc[i]),
+                                    fail_val,
+                                    int(fail_val),
                                     ha='center',
-                                    va='center',
-                                    fontsize=label_size,
-                                    color='white'
+                                    va='bottom',
+                                    fontsize=fail_size,
+                                    color='black'
                                 )
 
-                            # PASS label (di tengah PASS)
-                            if pass_values.iloc[i] > 0:
+                            # PASS label (warna customer, di atas bar PASS)
+                            if pass_val > 0:
                                 ax.text(
                                     i,
-                                    fail_values.iloc[i] + pass_values.iloc[i] / 2,
-                                    int(pass_values.iloc[i]),
+                                    fail_val + pass_val,
+                                    int(pass_val),
                                     ha='center',
-                                    va='center',
-                                    fontsize=label_size,
-                                    color='white'
+                                    va='bottom',
+                                    fontsize=pass_size,
+                                    color='pass_colors.iloc[i]'
                                 )
 
                             # TOTAL label (di atas stack)
                             ax.text(
                                 i,
-                                total_values.iloc[i],
-                                int(total_values.iloc[i]),
+                                total_val + (total_val * 0.02),
+                                int(total_val),
                                 ha='center',
                                 va='bottom',
-                                fontsize=label_size + 1,
-                                fontweight='bold'
+                                fontsize=total_size,
+                                fontweight='bold',
+                                color='black'
                             ) 
 
                         legend_elements = [
@@ -235,6 +244,7 @@ if uploaded_file:
         
             else:
                 st.info("Please select at least one customer.")
+
 
 
 
