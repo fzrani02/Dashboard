@@ -115,17 +115,17 @@ if uploaded_file:
 
                         ax.bar(
                             df_filtered["Station_Label"],
-                            pass_values,
-                            color=pass_colors,
-                            label="PASS"
+                            fail_values,
+                            color="black",
+                            label="FAIL"
                         )
 
                         ax.bar(
                             df_filtered["Station_Label"],
-                            fail_values,
-                            bottom=pass_values,
-                            color="black",
-                            label="FAIL"
+                            pass_values,
+                            bottom=fail_values,
+                            color=pass_colors,
+                            label="PASS"
                         )
 
                         for i in range(len(df_filtered)):
@@ -231,6 +231,7 @@ if uploaded_file:
         
             else:
                 st.info("Please select at least one customer.")
+
 
 
 
