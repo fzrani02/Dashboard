@@ -175,8 +175,8 @@ if uploaded_file:
 
                         ax.legend(handles=legend_elements, title="Customer / Fail")
 
-                        ax.set_ylabel("TOTAL QTY")
-                        ax.set_title(f"TOTAL QTY (PASS + FAIL) - {month}")
+                        ax.set_ylabel("QUANTITY")
+                        ax.set_title(f"TOTAL QUANTITY (PASS + FAIL) - {month}")
                         ax.set_ylim(0, total_values.max() * 1.20)
 
                     else:
@@ -231,4 +231,5 @@ if uploaded_file:
         
             else:
                 st.info("Please select at least one customer.")
+
 
