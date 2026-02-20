@@ -170,7 +170,7 @@ if uploaded_file:
                             # TOTAL label (di atas stack)
                             ax.text(
                                 i,
-                                total_val + (total_val * 0.02),
+                                total_val + (total_val * 0.05),
                                 int(total_val),
                                 ha='center',
                                 va='bottom',
@@ -244,6 +244,7 @@ if uploaded_file:
         
             else:
                 st.info("Please select at least one customer.")
+
 
 
 
