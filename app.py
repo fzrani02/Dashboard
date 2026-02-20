@@ -164,7 +164,7 @@ if uploaded_file:
                                     ha='center',
                                     va='bottom',
                                     fontsize=pass_size,
-                                    color='pass_colors.iloc[i]'
+                                    color=pass_colors.iloc[i]
                                 )
 
                             # TOTAL label (di atas stack)
@@ -244,6 +244,7 @@ if uploaded_file:
         
             else:
                 st.info("Please select at least one customer.")
+
 
 
 
