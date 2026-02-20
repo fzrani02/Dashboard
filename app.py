@@ -175,8 +175,8 @@ if uploaded_file:
 
                         ax.legend(handles=legend_elements, title="Customer / Fail")
 
-                        ax.set_ylabel("QUANTITY")
-                        ax.set_title(f"TOTAL QUANTITY (PASS + FAIL) - {month}")
+                        ax.set_ylabel("Quantity")
+                        ax.set_title(f"Total Quantity (QTY Pass + QTY Fail) per Station - {month}")
                         ax.set_ylim(0, total_values.max() * 1.20)
 
                     else:
@@ -212,8 +212,8 @@ if uploaded_file:
                         ]
 
                         ax.legend(handles=legend_elements, title="Customer")
-                        ax.set_ylabel("TOTAL YIELD (%)")
-                        ax.set_title(f"TOTAL YIELD (%) - {month}")
+                        ax.set_ylabel("Total Yield (%)")
+                        ax.set_title(f"Total Yield (%) per Station - {month}")
                         ax.set_ylim(0, 105)
 
                     ax.set_xlabel("STATION")
@@ -231,5 +231,6 @@ if uploaded_file:
         
             else:
                 st.info("Please select at least one customer.")
+
 
 
