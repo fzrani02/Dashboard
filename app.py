@@ -235,7 +235,7 @@ if uploaded_file:
                         ax.set_title(f"Total Yield (%) per Station - {month}")
                         ax.set_ylim(0, 105)
 
-                    ax.set_xlabel("STATION")
+                    ax.set_xlabel("Station")
                     ax.set_xticklabels(
                         df_filtered["Station_Label"],
                         rotation=90,
@@ -250,6 +250,7 @@ if uploaded_file:
         
             else:
                 st.info("Please select at least one customer.")
+
 
 
 
