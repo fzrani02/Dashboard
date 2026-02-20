@@ -179,7 +179,7 @@ if uploaded_file:
                                 va='bottom',
                                 fontsize=total_size,
                                 fontweight='bold',
-                                color='black'
+                                color='red'
                             ) 
 
                         legend_elements = [
@@ -250,6 +250,7 @@ if uploaded_file:
         
             else:
                 st.info("Please select at least one customer.")
+
 
 
 
