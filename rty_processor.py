@@ -53,19 +53,12 @@ def process_rty_7z(uploaded_file):
 
                     filename = parts[-1]
 
-                    # index folder RTY 
-                    if "RTY" in parts:
-                        rty_index = parts.index("RTY")
+                    if len(parts) >= 4 :
+                        customer = parts[-3]
+                        station = parts[-2]
 
-                        if len(parts) > rty_index + 2:
-                            customer = parts[rty_index + 1]
-                            station = parts[rty_index + 2]
-                        else:
-                            customer = "Unknown"
-                            station = "Unknown"
-                    else:
-                        customer = "Unknown"
-                        station = "Unknown"
+                    else: 
+                        continue
 
                     # ==============================
                     # QTY
@@ -225,6 +218,7 @@ def process_rty_7z(uploaded_file):
     finally:
         if os.path.exists(temp_dir):
             shutil.rmtree(temp_dir)
+
 
 
 
